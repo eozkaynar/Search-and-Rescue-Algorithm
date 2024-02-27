@@ -1,5 +1,9 @@
 #ifndef GRAPH_HPP_INCLUDED
 #define GRAPH_HPP_INCLUDED
+#include <cassert>
+#include <iostream>
+
+using namespace std;
 
 enum visited {UNVISITED, VISITED};
 
@@ -17,8 +21,8 @@ class Graph
         int n() const;                          // number of vertices
         int e() const;                          // number of edges
 
-        int first(int v)                        // first neighbor of vertex v
-        int next(int v, int w)                  // v's next neighbor after w
+        int first(int v);                        // first neighbor of vertex v
+        int next(int v, int w);                  // v's next neighbor after w
 
         void setEdge(int v1, int v2, int wt);   // set edge with weight wt
         void delEdge(int v1, int v2);           // delete edge
@@ -29,7 +33,37 @@ class Graph
         void setMark(int v, int val);           // set the mark
         void clearMark();                       // clear all marks
 
+        // Function to return the adjacency matrix
+        int** getMatrix() const {
+            return matrix;
+        }
 
+        // Function to print the adjacency matrix
+        void printMatrix() const {
+
+        cout << "Adjacency Matrix:" << endl;
+        for (int i = 0; i < numVertex; ++i) {
+
+            for (int j = 0; j < numVertex; ++j) {
+
+                cout << matrix[i][j] << " ";
+            }
+            cout << endl;
+            }
+        }
+
+        // Function to print the graph
+        void printGraph() const {
+
+            cout << "Graph:" << endl;
+            for (int i = 0; i < numVertex; ++i) {
+                for (int j = 0; j < numVertex; ++j) {
+                    if (matrix[i][j] != 0) {
+                        cout << i << " --> " << j << endl;
+                    }
+                }
+            }
+    }
 };
 
 // Constructor
@@ -130,5 +164,76 @@ void Graph::clearMark(void){
     for(int i = 0; i < numVertex; i++)
         mark[i] = UNVISITED;
 }
+
+Graph createGrid(int N)
+{
+    // Create N by N grid
+    int node_number = N*N;
+
+    Graph g(node_number);
+
+    for (int i = 0; i < node_number; i++)
+    {
+
+        if (i%N == 0){
+
+                if(i == 0)
+                {
+                    g.setEdge(i,i+1,1);
+                    g.setEdge(i,i+N,1);
+                }
+                else if(i == node_number-N)
+                {
+                    g.setEdge(i,i+1,1);
+                    g.setEdge(i,i-N,1);
+                }
+                else
+                {
+                    g.setEdge(i,i+1,1);
+                    g.setEdge(i,i+N,1);
+                    g.setEdge(i,i-N,1);
+                }
+        }
+        else if(i%N == N-1){
+
+                if (i == N-1){
+                    g.setEdge(i,i-1,1);
+                    g.setEdge(i,i+N,1);
+                }
+                else if (i == node_number-1){
+                    g.setEdge(i,i-1,1);
+                    g.setEdge(i,i-N,1);
+                }
+                else{
+                    g.setEdge(i,i-1,1);
+                    g.setEdge(i,i+N,1);
+                    g.setEdge(i,i-N,1);
+                }
+
+        }
+        else{
+            if(i < N){
+                g.setEdge(i,i-1,1);
+                g.setEdge(i,i+1,1);
+                g.setEdge(i,i+N,1);
+            }
+            else if(i > node_number-N){
+                g.setEdge(i,i-1,1);
+                g.setEdge(i,i+1,1);
+                g.setEdge(i,i-N,1);
+            }
+            else{
+                g.setEdge(i,i-1,1);
+                g.setEdge(i,i+1,1);
+                g.setEdge(i,i-N,1);
+                g.setEdge(i,i+N,1);
+            }
+
+        }
+    }
+
+    return g;
+}
+
 
 #endif // GRAPH_HPP_INCLUDED
