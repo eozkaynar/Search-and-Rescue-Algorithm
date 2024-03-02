@@ -134,12 +134,12 @@ void Grid::printGrid()
         // Remove Tile from neighbors vector
         vector<int>& neighbors = Tile.getNeighbors();
         // Check each neighbor of Tile's neighbors
-        cout<<"tile:" << Tile.getId() << "neig: " ;
+        cout<<"Tile: " << Tile.getId() << " " << "Neigbors: " ;
         for (int neighbor : neighbors)
         {
             cout<< neighbor<<" ";
-
         }
         cout<< endl;
     }
 }
+

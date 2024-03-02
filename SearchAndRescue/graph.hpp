@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 
+
 using namespace std;
 
 enum visited {UNVISITED, VISITED};
@@ -235,74 +236,6 @@ void Graph::clearMark(void){
 //    return g;
 //}
 
-//Grid createGrid(int N)
-//{
-//    // Create N by N grid
-//    int node_number = N*N;
-//
-//    Grid g(node_number);
-//
-//    for (int i = 0; i < node_number; i++)
-//    {
-//
-//        if (i%N == 0){
-//
-//                if(i == 0)
-//                {
-//                    g.setEdge(i,i+1,1);
-//                    g.setEdge(i,i+N,1);
-//                }
-//                else if(i == node_number-N)
-//                {
-//                    g.setEdge(i,i+1,1);
-//                    g.setEdge(i,i-N,1);
-//                }
-//                else
-//                {
-//                    g.setEdge(i,i+1,1);
-//                    g.setEdge(i,i+N,1);
-//                    g.setEdge(i,i-N,1);
-//                }
-//        }
-//        else if(i%N == N-1){
-//
-//                if (i == N-1){
-//                    g.setEdge(i,i-1,1);
-//                    g.setEdge(i,i+N,1);
-//                }
-//                else if (i == node_number-1){
-//                    g.setEdge(i,i-1,1);
-//                    g.setEdge(i,i-N,1);
-//                }
-//                else{
-//                    g.setEdge(i,i-1,1);
-//                    g.setEdge(i,i+N,1);
-//                    g.setEdge(i,i-N,1);
-//                }
-//
-//        }
-//        else{
-//            if(i < N){
-//                g.setEdge(i,i-1,1);
-//                g.setEdge(i,i+1,1);
-//                g.setEdge(i,i+N,1);
-//            }
-//            else if(i > node_number-N){
-//                g.setEdge(i,i-1,1);
-//                g.setEdge(i,i+1,1);
-//                g.setEdge(i,i-N,1);
-//            }
-//            else{
-//                g.setEdge(i,i-1,1);
-//                g.setEdge(i,i+1,1);
-//                g.setEdge(i,i-N,1);
-//                g.setEdge(i,i+N,1);
-//            }
-//
-//        }
-//    }
-//
-//    return g;
-//}
+
 
 #endif // GRAPH_HPP_INCLUDED
