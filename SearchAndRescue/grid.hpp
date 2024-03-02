@@ -22,6 +22,7 @@ class Tile
         std::vector<int>& getNeighbors();
         // Status of Tile: visited or unvisited
         Visited status;
+        int getStatus();
 };
 
 class Grid
@@ -46,6 +47,9 @@ class Grid
         void removeTile(int id);
         // Print grid
         void printGrid();
+        // Change tile status
+        void changeTileStatus(int id,Visited status);
+        int getTileStatus(int id);
 };
 
 #endif // GRID_HPP_INCLUDED

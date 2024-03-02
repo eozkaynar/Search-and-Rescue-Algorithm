@@ -3,6 +3,22 @@
 #include <algorithm>
 
 using namespace std;
+//**** HELPER FUNCTIONS ****//
+
+// The function to get index value of key in the vector
+int getIndexTiles(vector<Tile> v, int key)
+{
+    int i = 0;
+    for (Tile& Tile : v)
+    {
+        if (Tile.getId() == key) // If key is found
+            return i;
+        i++;
+    }
+
+    // If the element is not found
+    return -1;
+}
 
 // Helper function to remove Grid
 void removeTilesById(vector<Tile>& Tiles, int idToRemove)
@@ -34,10 +50,18 @@ Tile::Tile():id(0)
 // Constructor
 Tile::Tile(int id, vector<int>& neighbors):id(id),neighbors(neighbors) {}
 
-// the functions getId and getNeighbors.
+// the functions getId, getStatus and getNeighbors.
 int Tile::getId()
 {
     return id;
+}
+
+int Tile::getStatus()
+{
+    if(status == Visited::VISITED)
+        return 1;
+    else
+        return 0;
 }
 
 vector<int>& Tile::getNeighbors()
@@ -141,5 +165,24 @@ void Grid::printGrid()
         }
         cout<< endl;
     }
+}
+// Grid member function to change Tile visiting status
+void Grid::changeTileStatus(int id,Visited status)
+{
+    int index = getIndexTiles(tiles,id);
+    Tile& t = tiles[index];
+    t.status = status;
+
+    for(Tile& Tile : tiles)
+    {
+        cout<<"Tile: " <<  Tile.getStatus()<< endl;
+    }
+}
+
+int Grid::getTileStatus(int id)
+{
+    int index = getIndexTiles(tiles,id);
+    Tile& t = tiles[index];
+    cout<<"Tile: " << id <<"Status: " <<t.getStatus()<< endl;
 }
 

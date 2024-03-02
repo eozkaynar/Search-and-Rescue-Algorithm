@@ -8,9 +8,11 @@ using namespace std;
 int main()
 {
 
-    Grid g(9);
-    g = createGrid(9);
-    g.printGrid();
+    Grid g(2);
+    g = createGrid(2);
+   // g.printGrid();
+    g.changeTileStatus(1,Visited::VISITED);
+    g.getTileStatus(1);
 
 
     return 0;
