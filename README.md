@@ -10,6 +10,7 @@ Search and Rescue algorithm for mobile unit \ TechBatch
 
 *What will be done:*
 
+* Add setWeight function.
 * Add an enum class for Base and target tiles.
 * Grid partitioning.
 * Partition search for one mu.
