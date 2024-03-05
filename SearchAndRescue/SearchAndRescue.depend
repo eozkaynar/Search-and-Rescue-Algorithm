@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1709381399 source:c:\users\eozka\desktop\search-and-rescue-algorithm\searchandrescue\main.cpp
+1709668295 source:c:\users\eozka\desktop\search-and-rescue-algorithm\searchandrescue\main.cpp
 	<iostream>
 	"graph.hpp"
 	"grid.hpp"
@@ -13,12 +13,15 @@
 
 1709056132 c:\users\eozka\desktop\search-and-rescue-algorithm\searchandrescue\grid_functions.cpp
 
-1709381356 source:c:\users\eozka\desktop\search-and-rescue-algorithm\searchandrescue\grid.cpp
+1709668341 source:c:\users\eozka\desktop\search-and-rescue-algorithm\searchandrescue\grid.cpp
 	<iostream>
-	"grid.hpp"
 	<algorithm>
+	<queue>
+	<stack>
+	<climits>
+	"grid.hpp"
 
-1709381352 c:\users\eozka\desktop\search-and-rescue-algorithm\searchandrescue\grid.hpp
+1709668295 c:\users\eozka\desktop\search-and-rescue-algorithm\searchandrescue\grid.hpp
 	<string>
 	<vector>
 
