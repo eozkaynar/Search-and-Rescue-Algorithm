@@ -32,6 +32,9 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="graph.hpp" />
+		<Unit filename="grid.cpp" />
+		<Unit filename="grid.hpp" />
+		<Unit filename="grid_functions.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

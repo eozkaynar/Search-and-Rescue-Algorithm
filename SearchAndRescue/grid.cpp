@@ -179,6 +179,7 @@ void Grid::changeTileStatus(int id,Visited status)
     }
 }
 
+// Get tile's status with id
 int Grid::getTileStatus(int id)
 {
     int index = getIndexTiles(tiles,id);
