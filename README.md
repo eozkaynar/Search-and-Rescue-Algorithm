@@ -9,10 +9,10 @@ Search and Rescue algorithm for mobile unit \ TechBatch
 * Tile status change function added.
 * Add addObstacle (removeTile) function.
 * Dijkstra's algorithm.
+* Update tile's ids wrt to IR messages.
 
 *TO DO:*
 
-* Update tile's ids wrt to MKÖ codes.
 * Add an enum class for Base and target tiles.
 * Grid partitioning.
 * Partition search for one mu.
