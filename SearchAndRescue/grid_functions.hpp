@@ -5,6 +5,7 @@
 #include "grid.hpp"
 
 using namespace std;
+
 Grid createGrid(int N)
 {
     // Create N by N grid
@@ -12,62 +13,57 @@ Grid createGrid(int N)
 
     Grid g(node_number);
 
-    for (int i = 0; i < node_number; i++)
-    {
+    for (int i = 0; i < N; i++){
+        for (int j = 1; j <= N; j++){
 
-        if (i%N == 0){
+            int id = i*10 + j;         // id of current tile
 
-                if(i == 0)
-                {
-                    vector<int> tile = {i+1+1,i+N+1};
-                    g.addTile(i+1,tile);
+            if (j == 1){              // First column
+                if (i == 0){          // First tile
+                    vector<int> tile = {id+1,id+10};
+                    g.addTile(id,tile);
                 }
-                else if(i == node_number-N)
-                {
-                    vector<int> tile = {i-N+1,i+1+1};
-                    g.addTile(i+1,tile);
-                }
-                else
-                {
-;                   vector<int> tile = {i-N+1,i+1+1,i+N+1};
-                    g.addTile(i+1,tile);
-                }
-        }
-        else if(i%N == N-1){
-
-                if (i == N-1){
-                    vector<int> tile = {i-1+1,i+N+1};
-                    g.addTile(i+1,tile);
-                }
-                else if (i == node_number-1){
-                    vector<int> tile = {i-N+1,i-1+1};
-                    g.addTile(i+1,tile);
+                else if (i == N-1){
+                    vector<int> tile = {id+1,id-10};
+                    g.addTile(id,tile);
                 }
                 else{
-                    vector<int> tile = {i-N+1,i-1+1,i+N+1};
-                    g.addTile(i+1,tile);
+                    vector<int> tile = {id-10,id+1,id+10};
+                    g.addTile(id,tile);
                 }
-
-        }
-        else{
-            if(i < N){
-                vector<int> tile = {i-1+1,i+1+1,i+N+1};
-                g.addTile(i+1,tile);
             }
-            else if(i > node_number-N){
-                vector<int> tile = {i-N+1,i-1+1,i+1+1};
-                g.addTile(i+1,tile);
+            else if(j == 9){          // Last column
+                if (i == 0){
+                    vector<int> tile = {id-1,id+10};
+                    g.addTile(id,tile);
+                }
+                else if(i == 8){
+                    vector<int> tile = {id-1,id-10};
+                    g.addTile(id,tile);
+                }
+                else{
+                    vector<int> tile = {id-10,id-1,id+10};
+                    g.addTile(id,tile);
+                }
             }
             else{
-                vector<int> tile = {i-N+1,i-1+1,i+1+1,i+N+1};
-                g.addTile(i+1,tile);
+                if(i == 0)
+                {
+                    vector<int> tile = {id-1,id+1,id+10};
+                    g.addTile(id,tile);
+                }
+                else if(i == 8){
+                    vector<int> tile = {id-10,id-1,id+1};
+                    g.addTile(id,tile);
+                }
+                else{
+                    vector<int> tile = {id-10,id-1,id+1,id+10};
+                    g.addTile(id,tile);
+                }
             }
-
         }
     }
-
     return g;
 }
-
 
 #endif // GRID_FUNCTIONS_HPP_INCLUDED
