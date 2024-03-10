@@ -16,4 +16,4 @@ Search and Rescue algorithm for mobile unit \ TechBatch
 * Add an enum class for Base and target tiles.
 * Grid partitioning.
 * Partition search for one mu.
-
+* Tile constructor default UNVISITED status.
