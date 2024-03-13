@@ -9,12 +9,11 @@ int main()
 {
     vector<int>path;
     Grid g(2);
-    g = createSubGrid(2,6,2,3);
+    g = createSubGrid(2,1,2,3);
     g.printGrid();
     //g.changeTileStatus(1,Visited::VISITED);
     //g.getTileStatus(1);
-    g.addObstacle(6);
-    g.printGrid();
+
 
 
 
