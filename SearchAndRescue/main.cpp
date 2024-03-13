@@ -9,21 +9,21 @@ int main()
 {
     vector<int>path;
     Grid g(2);
-    g = createGrid(9);
-   // g.printGrid();
+    g = createSubGrid(2,6,2,3);
+    g.printGrid();
     //g.changeTileStatus(1,Visited::VISITED);
     //g.getTileStatus(1);
+    g.addObstacle(6);
     g.printGrid();
 
+
+
+
 //
-//    g.addObstacle(2);
-//    g.addObstacle(8);
-//
-////
-//    path = g.calculatePath(1,9);
-//
-//    for (int p : path)
-//        cout<<p<<endl;
+    path = g.calculatePath(1,81);
+
+    for (int p : path)
+        cout<<p<<endl;
     return 0;
 }
 

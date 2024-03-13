@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-// visiting status of node
+// visiting status of Tile
 enum class Visited {UNVISITED, VISITED};
 
 class Tile
@@ -45,7 +45,7 @@ class Grid
         // Tile functions
         void addTile(int id, std::vector<int>& neighbors);
 
-        // add Obstacle (remove Tile due to infinity weigth)
+        // add Obstacle (remove Tile due to infinity weight)
         void addObstacle(int id);
 
         // Print grid
