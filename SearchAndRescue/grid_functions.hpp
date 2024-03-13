@@ -115,10 +115,10 @@ Grid createSubGrid(int sub_id,int obs1,int obs2,int obs3)
                 cout<<"Wrong subGrid"<<endl;
         }
 
-//    subGrid.addObstacle(obs1);
-//    subGrid.addObstacle(obs2);
-//    subGrid.addObstacle(obs3);
-//    //subGrid.addObstacle(34);
+    subGrid.addObstacle(obs1);
+    subGrid.addObstacle(obs2);
+    subGrid.addObstacle(obs3);
+    subGrid.addObstacle(34);
 
 
     return subGrid;
