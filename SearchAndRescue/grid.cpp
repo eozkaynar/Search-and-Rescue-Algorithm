@@ -157,9 +157,11 @@ void Grid::addObstacle(int id)
                 }
             }
         }
+        // Remove Tile
+        if(Tile.getId() == id)
+            removetilesById(tiles, id);
     }
-    // Remove Tile
-    removetilesById(tiles, id);
+
 }
 // Print Grid
 void Grid::printGrid()
