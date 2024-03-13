@@ -38,24 +38,37 @@ void removeZeros(vector<int>& v)
 }
 
 // Helper function to remove Grid
-void removetilesById(vector<Tile>& tiles, int idToRemove)
-{
-    // Check for each Tile
-    for (int i = 0 ; i < tiles.size()-1; i++)
-    {
-        // If corresponding Tile is found
-        if (tiles[i].getId() == idToRemove)
-        {
-            // Swap elements at start and end indices
-            // Push the corresponding Tile to end of the vector
-            Tile temp    = tiles[i];
-            tiles[i]     = tiles[i+1];
-            tiles[i+1]   = temp;
+//void removetilesById(vector<Tile>& tiles, int idToRemove)
+//{
+//    // Check for each Tile
+//    for (int i = 0 ; i < tiles.size()-1; i++)
+//    {
+//        // If corresponding Tile is found
+//        if (tiles[i].getId() == idToRemove)
+//        {
+//            // Swap elements at start and end indices
+//            // Push the corresponding Tile to end of the vector
+//            Tile temp    = tiles[i];
+//            tiles[i]     = tiles[i+1];
+//            tiles[i+1]   = temp;
+//
+//        }
+//    }
+//    // Delete the Tile from back
+//    tiles.pop_back();
+//}
 
-        }
+void removetilesById(std::vector<Tile>& tiles, int idToRemove) {
+    // Find the position of the element to remove
+   auto it = std::find_if(tiles.begin(), tiles.end(), [idToRemove](Tile& t) {
+        return t.getId() == idToRemove;
+    });;
+
+    // Check if the element exists in the vector
+    if (it != tiles.end()) {
+        // Erase the element from the vector
+        tiles.erase(it);
     }
-    // Delete the Tile from back
-    tiles.pop_back();
 }
 
 // ***** Tile Class *****
@@ -163,6 +176,7 @@ void Grid::addObstacle(int id)
     }
 
 }
+
 // Print Grid
 void Grid::printGrid()
 {
