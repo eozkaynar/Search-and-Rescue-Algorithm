@@ -15,7 +15,6 @@ Grid createGrid(int N, int M, int init_id)
     */
 
     //Define base 34 ekle
-
     // int base = 34;
     // Create N by M grid
     int node_number = N*M;
@@ -34,28 +33,34 @@ Grid createGrid(int N, int M, int init_id)
                 if (i == k){          // First tile
                     vector<int> tile = {id+1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else if (i == N+k-1){
                     vector<int> tile = {id+1,id-10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else{
                     vector<int> tile = {id-10,id+1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
             }
             else if(j == M+l-1){          // Last column
                 if (i == k){
                     vector<int> tile = {id-1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else if(i == N+k-1){
                     vector<int> tile = {id-1,id-10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else{
                     vector<int> tile = {id-10,id-1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
             }
             else{
@@ -63,14 +68,17 @@ Grid createGrid(int N, int M, int init_id)
                 {
                     vector<int> tile = {id-1,id+1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else if(i == N+k-1){
                     vector<int> tile = {id-10,id-1,id+1};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else{
                     vector<int> tile = {id-10,id-1,id+1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
             }
         }
@@ -124,5 +132,73 @@ Grid createSubGrid(int sub_id,int obs1,int obs2,int obs3)
     return subGrid;
 
 }
+
+
+vector<int> func(Grid subgrid,int init_loc) {
+
+    subgrid.changeTileStatus(init_loc,Visited::VISITED);
+    vector<int> unvisited_tiles = subgrid.unvisited_tiles;
+    vector<int> path;
+    vector<int> new_path;
+    vector<int> final_path;
+    Tile* currentTile;
+    int unvisited_current = 0;
+    int unvisited_max     = INT_MIN;
+    int start_point       = init_loc;
+
+    // Get the length of the vector
+    size_t numberOfUnvisited = unvisited_tiles.size();
+    size_t numberOfTiles = subgrid.getTileNumber();
+
+    while(1){
+
+
+        unvisited_max     = INT_MIN;
+
+        unvisited_tiles = subgrid.unvisited_tiles;
+        if(!unvisited_tiles.size())
+            break;
+
+        for(int i : unvisited_tiles) {
+
+            path = subgrid.calculatePath(start_point,i);
+            cout<<"From: "<<start_point<<" To: "<<i<<endl;
+            unvisited_current = 0;
+            for(int j: path){
+                currentTile = subgrid.getTile(j);
+
+                if (currentTile->getStatus() == 0)
+                    unvisited_current++;
+            }
+            if (unvisited_current > unvisited_max){
+                unvisited_max = unvisited_current;
+                new_path      = path;
+            }
+        }
+
+        for (int p: new_path){
+            subgrid.changeTileStatus(p,Visited::VISITED);
+            cout<<p<<endl;
+        }
+
+        start_point = new_path.back();
+//        subgrid.changeTileStatus(start_point,Visited::VISITED);
+        final_path.insert(final_path.end(), new_path.begin(), new_path.end());
+
+
+
+    }
+
+
+    return final_path;
+
+
+
+}
+
+
+
+
+
 
 #endif // GRID_FUNCTIONS_HPP_INCLUDED

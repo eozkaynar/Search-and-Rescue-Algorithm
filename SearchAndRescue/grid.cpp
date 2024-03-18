@@ -52,6 +52,17 @@ void removetilesById(std::vector<Tile>& tiles, int idToRemove) {
     }
 }
 
+void removeElementByValue(std::vector<int>& vec, int elementToRemove) {
+    // Find the position of the element to remove
+    auto it = find(vec.begin(), vec.end(), elementToRemove);
+
+    // Check if the element exists in the vector
+    if (it != vec.end()) {
+        // Erase the element from the vector
+        vec.erase(it);
+    }
+}
+
 // ***** Tile Class *****
 
 // Constructors
@@ -59,7 +70,7 @@ void removetilesById(std::vector<Tile>& tiles, int idToRemove) {
 Tile::Tile():id(0)
 {}
 // Constructor
-Tile::Tile(int id, vector<int>& neighbors):id(id),neighbors(neighbors) {}
+Tile::Tile(int id, vector<int>& neighbors):id(id),neighbors(neighbors),status(Visited::UNVISITED) {}
 
 // the functions getId, getStatus and getNeighbors.
 int Tile::getId()
@@ -157,6 +168,7 @@ void Grid::addObstacle(int id)
                 // Remove Tile
         if(Tile.getId() == id)
             removetilesById(tiles, id);
+            removeElementByValue(unvisited_tiles,id);
     }
 
 }
@@ -184,10 +196,12 @@ void Grid::changeTileStatus(int id,Visited status)
     Tile& t = tiles[index];
     t.status = status;
 
-    for(Tile& Tile : tiles)
-    {
-        cout<<"Tile: " <<  Tile.getStatus()<< endl;
-    }
+    // If the tile is visited remove it from unvisited vector
+    if(status == Visited::VISITED)
+        removeElementByValue(unvisited_tiles,id);
+
+
+
 }
 
 // Get tile's status with id
@@ -196,6 +210,12 @@ int Grid::getTileStatus(int id)
     int index = getTileIndex(tiles,id);
     Tile& t = tiles[index];
     cout<<"Tile: " << id <<"Status: " <<t.getStatus()<< endl;
+}
+
+// Get tile number
+int Grid::getTileNumber()
+{
+    return tiles.size();
 }
 
 std::vector<int> Grid::calculatePath(int source, int destination)

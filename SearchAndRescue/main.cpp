@@ -8,19 +8,27 @@ using namespace std;
 int main()
 {
     vector<int>path;
-    Grid g(2);
-    g = createSubGrid(3,44,57,58);
-    g.printGrid();
-    //g.changeTileStatus(1,Visited::VISITED);
-    //g.getTileStatus(1);
 
-    path = g.calculatePath(54,59);
+    Grid g = createSubGrid(3,65,57,1);
+    //g.printGrid();
 
-    for (int p : path)
+//    g.getTileStatus(1);
+
+
+    path = func(g,44);
+    cout<<"+++++++"<<endl;
+    for (int p: path)
         cout<<p<<endl;
+    //path = g.calculatePath(1,83);
+//
+//    for (int t : g.unvisited_tiles)
+//        cout<<t<<endl;
 
-    // deneme yorum
-    // deneme yorum2
+//    g.changeTileStatus(11,Visited::VISITED);
+
+//    cout<<"+++++++++++"<<endl;
+//    for (int t : g.unvisited_tiles)
+//        cout<<t<<endl;
 
     return 0;
 }
