@@ -125,4 +125,8 @@ Grid createSubGrid(int sub_id,int obs1,int obs2,int obs3)
 
 }
 
+// Search algorithm
+
+void
+
 #endif // GRID_FUNCTIONS_HPP_INCLUDED
