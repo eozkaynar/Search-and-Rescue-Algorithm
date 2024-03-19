@@ -9,16 +9,16 @@ int main()
 {
     vector<int>path;
 
-    Grid g = createSubGrid(1,22,63,11);
+    Grid g = createSubGrid(3,0,0,0);
     //g.printGrid();
 
 //    g.getTileStatus(1);
 
 
-    path = func(g,1);
+    path = func(g,44);
     cout<<"+++++++"<<endl;
     for (int p: path)
-        cout<<p<<endl;
+        cout<<p<<" ";
     //path = g.calculatePath(1,83);
 //
 //    for (int t : g.unvisited_tiles)

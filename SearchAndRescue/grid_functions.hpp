@@ -202,7 +202,7 @@ vector<int> func(Grid subgrid,int init_loc) {
         unvisited_max     = INT_MIN;
 
         // Delete extra visiting nodes
-        if (unvisited_tiles.size() > 1)
+        if (unvisited_tiles.size() > 0)
             new_path.pop_back();
 
         // Concatenate the new path with the final path
