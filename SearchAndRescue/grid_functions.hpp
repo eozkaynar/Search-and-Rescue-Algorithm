@@ -15,7 +15,6 @@ Grid createGrid(int N, int M, int init_id)
     */
 
     //Define base 34 ekle
-
     // int base = 34;
     // Create N by M grid
     int node_number = N*M;
@@ -34,28 +33,34 @@ Grid createGrid(int N, int M, int init_id)
                 if (i == k){          // First tile
                     vector<int> tile = {id+1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id); // Add the new tile to unvisited tiles vector
                 }
                 else if (i == N+k-1){
                     vector<int> tile = {id+1,id-10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else{
                     vector<int> tile = {id-10,id+1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
             }
             else if(j == M+l-1){          // Last column
                 if (i == k){
                     vector<int> tile = {id-1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else if(i == N+k-1){
                     vector<int> tile = {id-1,id-10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else{
                     vector<int> tile = {id-10,id-1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
             }
             else{
@@ -63,19 +68,21 @@ Grid createGrid(int N, int M, int init_id)
                 {
                     vector<int> tile = {id-1,id+1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else if(i == N+k-1){
                     vector<int> tile = {id-10,id-1,id+1};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
                 else{
                     vector<int> tile = {id-10,id-1,id+1,id+10};
                     g.addTile(id,tile);
+                    g.unvisited_tiles.push_back(id);
                 }
             }
         }
     }
-    //g.addObstacle(base);
     return g;
 }
 
@@ -115,14 +122,100 @@ Grid createSubGrid(int sub_id,int obs1,int obs2,int obs3)
                 cout<<"Wrong subGrid"<<endl;
         }
 
+    // Add obstacles
     subGrid.addObstacle(obs1);
     subGrid.addObstacle(obs2);
     subGrid.addObstacle(obs3);
+    // Add base
     subGrid.addObstacle(34);
 
 
     return subGrid;
 
 }
+
+
+vector<int> func(Grid subgrid,int init_loc) {
+
+    // Mark the starting point as VISITED
+    subgrid.changeTileStatus(init_loc,Visited::VISITED);
+    // Get unvisited tiles for the searching
+    vector<int> unvisited_tiles = subgrid.unvisited_tiles;
+
+    // Define the paths to hold and return
+    vector<int> path;                       // Dijkstra's path
+    vector<int> new_path;                   // Paths of each best path candidate
+    vector<int> final_path;                 // Return the all searching path
+
+    Tile* currentTile;                      // Get current tile to check if it is visited or not
+    // Initialize paramaters
+    int unvisited_current = 0;              // Number of unvisited tiles of best path candidates
+    int unvisited_max     = INT_MIN;
+    int start_point       = init_loc;       // Start point for each loop
+
+    while(1){
+
+        // Breaking condition
+        if(!unvisited_tiles.size())
+            break;
+
+        // For each unvisited tiles calculate the paths
+        for(int i : unvisited_tiles) {
+
+            // Calculate path
+            path = subgrid.calculatePath(start_point,i);
+            // Update the parameter for each path
+            unvisited_current = 0;
+
+            // For each tile in the path find the number of tiles that are not visited
+            for(int j: path){
+
+                // Get current tile to check it's status
+                currentTile = subgrid.getTile(j);
+                // If it is visited increase the unvisited_current by 1
+                if (currentTile->getStatus() == 0)
+                    unvisited_current++;
+            }
+            // If the unvisited tiles of current path is larger than the path having maximum unvisited tiles
+            // update parameter and path
+            if (unvisited_current > unvisited_max){
+                unvisited_max = unvisited_current;
+                new_path      = path;
+            }
+        }
+
+        // After finding the new path, change the status of each tile in the path
+        for (int p: new_path){
+
+            subgrid.changeTileStatus(p,Visited::VISITED);
+        }
+
+        // Update unvisited tiles
+        unvisited_tiles = subgrid.unvisited_tiles;
+
+        // Update parameters for new unvisited_tiles set
+
+        // Update starting point
+        start_point = new_path.back();
+
+        // Update unvisited_max to int_min
+        unvisited_max     = INT_MIN;
+
+        // Delete extra visiting nodes
+        if (unvisited_tiles.size() > 1)
+            new_path.pop_back();
+
+        // Concatenate the new path with the final path
+        final_path.insert(final_path.end(), new_path.begin(), new_path.end());
+
+    }
+    return final_path;
+
+}
+
+
+
+
+
 
 #endif // GRID_FUNCTIONS_HPP_INCLUDED
