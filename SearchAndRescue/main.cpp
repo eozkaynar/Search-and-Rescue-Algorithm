@@ -9,7 +9,7 @@ int main()
 {
     vector<int>path;
 
-    Grid g = createSubGrid(3,0,0,0);
+    Grid g = createSubGrid(3,55,87,69);
     //g.printGrid();
 
 //    g.getTileStatus(1);

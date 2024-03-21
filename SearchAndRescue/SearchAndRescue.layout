@@ -2,67 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-<<<<<<< HEAD
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="322" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="graph.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-=======
-	<File name="grid.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1484" topLine="49" />
-		</Cursor>
-	</File>
 	<File name="grid_functions.hpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4901" topLine="158" />
-		</Cursor>
-	</File>
-	<File name="grid.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4489" topLine="76" />
-		</Cursor>
-		<Folding>
-			<Collapse line="14" />
-			<Collapse line="29" />
-			<Collapse line="41" />
-			<Collapse line="54" />
-			<Collapse line="76" />
-			<Collapse line="81" />
-			<Collapse line="89" />
-			<Collapse line="102" />
-			<Collapse line="115" />
-			<Collapse line="177" />
-			<Collapse line="208" />
-			<Collapse line="221" />
-		</Folding>
-	</File>
-	<File name="graph.hpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="191" topLine="87" />
+			<Cursor1 position="6228" topLine="185" />
 		</Cursor>
 	</File>
 	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
->>>>>>> 15d27c46bc4ab885450dbc9d25f5553b2ab6eeb3
 		<Cursor>
-			<Cursor1 position="196" topLine="3" />
-		</Cursor>
-	</File>
-	<File name="grid_functions.hpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3114" topLine="99" />
-		</Cursor>
-	</File>
-	<File name="grid.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4491" topLine="163" />
-		</Cursor>
-	</File>
-	<File name="grid.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1414" topLine="41" />
+			<Cursor1 position="183" topLine="9" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
