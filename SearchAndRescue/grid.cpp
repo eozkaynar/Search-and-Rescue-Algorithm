@@ -218,6 +218,105 @@ int Grid::getTileNumber()
     return tiles.size();
 }
 
+//std::vector<int> Grid::calculatePath(int source, int destination)
+//{
+//    int numOftiles = tiles.size();
+//
+//    // Queue to Dijkstra's algorithm
+//    std::queue<int> q;
+//
+//    // Stack to get the path
+//    std::stack<int> PathStack;
+//    int dist[numOftiles+1];         // Distances
+//
+//    std::vector<int> path(numOftiles + 1); // Path vector
+//    std::vector<int> prev(numOftiles + 1); // Previous tiles
+//
+//    // Set all distances, previous tiles, and marks
+//    for (int i = 1; i <= numOftiles; i++) {
+//        dist[i] = INT_MAX;
+//        prev[i] = -1;
+//    }
+//
+//    // Update source
+//    int source_ind = getTileIndex(tiles, source);
+//    dist[source_ind] = 0;
+//
+//    // Insert the source Tile
+//    q.push(source);
+//
+//    // Unweighted Dijkstra's algorithm
+//    while (!q.empty()) {
+//        // Front element of q
+//        int u = q.front();
+//        q.pop();
+//
+//        // Find neighbors corresponding Tile
+//        int u_Tile = getTileIndex(tiles, u);
+//        std::vector<int> neighbors = tiles[u_Tile].getNeighbors();
+//
+//        for (int i = 0; i < neighbors.size(); ++i)
+//        {
+//            int ind = getTileIndex(tiles, neighbors[i]);
+//
+//            // If old distance is larger than new distance
+//            if (dist[ind] > dist[u_Tile] + 1)
+//            {
+//                dist[ind] = dist[u_Tile] + 1;    // Update the distance
+//                prev[ind] = u;                   // Update the previous Tile
+//                q.push(neighbors[i]);            // Insert Tile to queue
+//            }
+//        }
+//    }
+//
+//    int vertex = getTileIndex(tiles, destination);
+//
+//    // Insert the destination Tile to stack
+//    if ((prev[vertex] > 0) && (vertex != -1))
+//        PathStack.push(destination);
+//    else
+//    {
+//        // If Tile does not exist.
+//        std::cerr << "There is no path!" << std::endl;
+//        exit(1);
+//    }
+//
+//    int max_Tile = INT_MIN;
+//
+//    // Max Tile index
+//    // Find max Tile index to determine valid vertex range 1-max_ind
+//    for (auto Tile : tiles)
+//    {
+//        if (Tile.getId() > max_Tile)
+//            max_Tile = Tile.getId();
+//    }
+//
+//    // Start with destination Tile and find its previous Tile of vertex
+//    while (true)  // Until source Tile is reached, find previous tiles from prev vector
+//    {
+//        vertex = prev[vertex];
+//        if ((vertex < 0) || (vertex > max_Tile)) // If vertex is not in the valid range
+//            break;
+//        PathStack.push(vertex); // Push the tiles to Path stack
+//        vertex = getTileIndex(tiles, vertex);
+//    }
+//
+//    int i = 0;
+//
+//    // Until the PathStack is empty
+//    while (!PathStack.empty())
+//    {
+//        path[i] = PathStack.top(); // Reverse PathStack to path
+//        PathStack.pop();
+//        i++;
+//    }
+//
+//    // Remove zeros from path
+//    removeZeros(path);
+//    return path;
+//}
+
+// Updated Dijkstra with weights
 std::vector<int> Grid::calculatePath(int source, int destination)
 {
     int numOftiles = tiles.size();
@@ -257,12 +356,14 @@ std::vector<int> Grid::calculatePath(int source, int destination)
 
         for (int i = 0; i < neighbors.size(); ++i)
         {
-            int ind = getTileIndex(tiles, neighbors[i]);
+            int ind      = getTileIndex(tiles, neighbors[i]);
+            Tile* v_Tile =  &tiles[ind];  // Get neighbors tile
+            int weight   = (v_Tile->getStatus() == 0 ? 1 : 2);
 
             // If old distance is larger than new distance
-            if (dist[ind] > dist[u_Tile] + 1)
+            if (dist[ind] > dist[u_Tile] + weight)
             {
-                dist[ind] = dist[u_Tile] + 1;    // Update the distance
+                dist[ind] = dist[u_Tile] + weight;    // Update the distance
                 prev[ind] = u;                   // Update the previous Tile
                 q.push(neighbors[i]);            // Insert Tile to queue
             }

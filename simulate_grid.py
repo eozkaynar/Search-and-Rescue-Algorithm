@@ -42,15 +42,40 @@ class Grids:
             for row in range(9):
                 for col in range(9):
                     if self.visited[row][col] == 1:
-                        ax.text(col + 0.5, row + 0.5, '*', ha='center', va='center', color='cyan', fontsize=12)
+                        color = 'black'
+                        if grid_with_path[row][col] == 2:  # If it's the current node
+                            color = 'white'  # Change color for current node
+                        ax.text(col + 0.5, row + 0.30, '*', ha='center', va='center', color=color, fontsize=25)
+
+            # Highlight specific indexes in red
+            red_indexes = [1, 2, 3, 11, 12, 13, 21, 22, 23, 31, 32, 33, 41, 42, 43, 51, 52, 53, 61, 62, 63, 71, 72, 73, 81, 82, 83]
+            for idx in red_indexes:
+                row = (idx - 1) // 10
+                col = (idx - 1) % 10
+                ax.add_patch(plt.Rectangle((col, row), 1, 1, color=(1.0, 0.5, 0.5)))
+
+            # Highlight specific indexes in red
+            blue_indexes = [4, 5, 6, 7, 8, 9, 14, 15, 16, 17, 18, 19, 24, 25, 26, 27, 28, 29, 34, 35, 36, 37, 38, 39]
+            for idx in blue_indexes:
+                row = (idx - 1) // 10
+                col = (idx - 1) % 10
+                ax.add_patch(plt.Rectangle((col, row), 1, 1, color=(0.25, 0.25, 1.0)))
+
+            # Highlight specific indexes in red
+            green_indexes = [44, 45, 46, 47, 48, 49, 54, 55, 56, 57, 58, 59, 64, 65, 66, 67, 68, 69,74, 75, 76, 77, 78, 79 ,84, 85, 86, 87, 88, 89]
+            for idx in green_indexes:
+                row = (idx - 1) // 10
+                col = (idx - 1) % 10
+                ax.add_patch(plt.Rectangle((col, row), 1, 1, color=(0.25, 0.75 ,0.25)))
 
             plt.pause(0.5)  # Pause for 0.5 seconds
             plt.draw()
             grid_with_path = np.zeros((9, 9))  # Reset grid to clear previous positions
         
         plt.show()
+
 # Input string
-input_string3 = "44 45 46 47 48 49 59 69 79 89 88 78 68 58 57 56 55 54 64 74 84 85 75 65 66 67 66 76 86 76 77 87"
+input_string3 = "44 45 46 47 48 58 68 78 79 89 88 78 68 67 66 65 64 54 64 65 66 56 57 58 59 58 57 56 66 65 64 74 84 85 75 76 77 67 57 47 48 49 48 47 46 56 66 76 86"
 
 # Convert input string to Python list
 path3 = list(map(int, input_string3.split()))

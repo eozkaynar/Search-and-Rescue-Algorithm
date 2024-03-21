@@ -120,7 +120,7 @@ path2 = [
 ]
 
 # Input string
-input_string = "44 54 55 56 57 58 59 69 79 69 68 67 66 65 64 74 84 85 75 65 55 56 46 47 48 49 48 47 57 67 77 87 88 87 77 76 86"
+input_string = "44 45 46 47 48 58 68 78 79 89 88 78 77 67 66 65 64 54 64 74 75 76 86 76 66 56 57 58 59 49 48 47 46 56 66 65 75 85 84"
 
 # Convert input string to Python list
 path = list(map(int, input_string.split()))
