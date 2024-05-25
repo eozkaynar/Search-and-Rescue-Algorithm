@@ -3,6 +3,14 @@
 #include <string>
 #include <vector>
 
+// Struct for output of calculatePath
+
+struct Path{
+    std::vector<int> path;
+    int dead_tile;
+};
+
+
 // visiting status of Tile
 enum class Visited {UNVISITED, VISITED};
 
@@ -23,6 +31,8 @@ class Tile
         std::vector<int>& getNeighbors();
         // Status of Tile: visited or unvisited
         Visited status;
+        // Weight of the crossing this tile
+        int weight = 0;
         // Return status
         int getStatus();
 };
@@ -36,8 +46,6 @@ class Grid
         // Edge number
         int N;
 
-
-
     public:
 
         // Constructors
@@ -46,6 +54,9 @@ class Grid
 
         // Visited status vector
         std::vector<int> unvisited_tiles;
+
+        // Base Tiles
+        std::vector<int> base_tiles = {0};
 
         // Tile functions
         void addTile(int id, std::vector<int>& neighbors);
@@ -69,7 +80,14 @@ class Grid
         int getTileNumber();
 
         // Calculate shortest path
-        std::vector<int> calculatePath(int source, int destination);
+        Path calculatePath(int source, int destination);
+
+        //Check the tile is in the grid
+        bool isInSubgrid(int tile);
+
+        // Integer vector of Tile's id's
+        std::vector<int> Tiles_IDs_vector();
 };
+
 
 #endif // GRID_HPP_INCLUDED

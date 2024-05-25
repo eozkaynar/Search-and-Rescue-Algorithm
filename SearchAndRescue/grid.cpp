@@ -9,7 +9,18 @@
 using namespace std;
 
 //**** HELPER FUNCTIONS ****//
+int Find(vector<int> vec, int element) {
 
+    int L = vec.size();
+
+    for(int i=0; i<L; i++) {
+
+        if(vec[i] == element)
+            return i;
+    }
+
+    return -1;
+}
 // The function to get index value of key in the vector
 int getTileIndex(vector<Tile> tiles, int key)
 {
@@ -99,6 +110,31 @@ Grid::Grid(int N):N(N) {}
 
 //functions
 
+// Tile's id vector
+vector<int> Grid::Tiles_IDs_vector()
+{
+    vector<int>ids;
+    for (Tile& T : tiles){
+        ids.push_back(T.getId());
+    }
+    return ids;
+    return ids;
+}
+// Check the tile is in the grid
+bool Grid::isInSubgrid(int tile) {
+
+
+    int L = tiles.size();
+
+    for(int i=0; i<L; i++) {
+
+        if(tiles[i].getId() == tile)
+            return true;
+    }
+
+    return false;
+}
+
 Tile* Grid::getTile(int id)
 {
     // For each Tile in tiles
@@ -124,12 +160,13 @@ void Grid::addTile(int id, std::vector<int>& neighbors)
 
     for (int i = 0; i<neighbors.size(); i++)
     {
+        FLAG_EXIST = true;
         // Neighbor's Id
         NeighborId     = neighbors[i];
         // Get the neighbor
         NeighborTile   = getTile(NeighborId);
         // If the NeighborTile exists add Tile to its neighbors
-        if(NeighborTile != NULL)
+        if(NeighborTile != nullptr)
         {
             vector<int> NeighbOfNeigb = NeighborTile->getNeighbors(); // Neighbors vector of neighbor of Tile
             for (int n : NeighbOfNeigb)
@@ -140,7 +177,9 @@ void Grid::addTile(int id, std::vector<int>& neighbors)
             if (FLAG_EXIST) // If the Tile does not exists in neighbors of its neighbors, add to its neighbors' neighbors
                 NeighborTile->getNeighbors().push_back(id);
         }
+
     }
+    unvisited_tiles.push_back(id);
 }
 
 void Grid::addObstacle(int id)
@@ -169,6 +208,7 @@ void Grid::addObstacle(int id)
         if(Tile.getId() == id)
             removetilesById(tiles, id);
             removeElementByValue(unvisited_tiles,id);
+            removeElementByValue(base_tiles,id);
     }
 
 }
@@ -192,15 +232,20 @@ void Grid::printGrid()
 // Grid member function to change Tile visiting status
 void Grid::changeTileStatus(int id,Visited status)
 {
-    int index = getTileIndex(tiles,id);
-    Tile& t = tiles[index];
-    t.status = status;
+    // Get tile
+    int index   = getTileIndex(tiles,id);
+    Tile& t     = tiles[index];
+    // Update status
+    t.status    = status;
 
     // If the tile is visited remove it from unvisited vector
-    if(status == Visited::VISITED)
+    if(status == Visited::VISITED){
         removeElementByValue(unvisited_tiles,id);
-
-
+        // Update weight
+        t.weight    = t.weight + 1;
+    }else{
+        unvisited_tiles.push_back(id);
+    }
 
 }
 
@@ -218,201 +263,82 @@ int Grid::getTileNumber()
     return tiles.size();
 }
 
-//std::vector<int> Grid::calculatePath(int source, int destination)
-//{
-//    int numOftiles = tiles.size();
-//
-//    // Queue to Dijkstra's algorithm
-//    std::queue<int> q;
-//
-//    // Stack to get the path
-//    std::stack<int> PathStack;
-//    int dist[numOftiles+1];         // Distances
-//
-//    std::vector<int> path(numOftiles + 1); // Path vector
-//    std::vector<int> prev(numOftiles + 1); // Previous tiles
-//
-//    // Set all distances, previous tiles, and marks
-//    for (int i = 1; i <= numOftiles; i++) {
-//        dist[i] = INT_MAX;
-//        prev[i] = -1;
-//    }
-//
-//    // Update source
-//    int source_ind = getTileIndex(tiles, source);
-//    dist[source_ind] = 0;
-//
-//    // Insert the source Tile
-//    q.push(source);
-//
-//    // Unweighted Dijkstra's algorithm
-//    while (!q.empty()) {
-//        // Front element of q
-//        int u = q.front();
-//        q.pop();
-//
-//        // Find neighbors corresponding Tile
-//        int u_Tile = getTileIndex(tiles, u);
-//        std::vector<int> neighbors = tiles[u_Tile].getNeighbors();
-//
-//        for (int i = 0; i < neighbors.size(); ++i)
-//        {
-//            int ind = getTileIndex(tiles, neighbors[i]);
-//
-//            // If old distance is larger than new distance
-//            if (dist[ind] > dist[u_Tile] + 1)
-//            {
-//                dist[ind] = dist[u_Tile] + 1;    // Update the distance
-//                prev[ind] = u;                   // Update the previous Tile
-//                q.push(neighbors[i]);            // Insert Tile to queue
-//            }
-//        }
-//    }
-//
-//    int vertex = getTileIndex(tiles, destination);
-//
-//    // Insert the destination Tile to stack
-//    if ((prev[vertex] > 0) && (vertex != -1))
-//        PathStack.push(destination);
-//    else
-//    {
-//        // If Tile does not exist.
-//        std::cerr << "There is no path!" << std::endl;
-//        exit(1);
-//    }
-//
-//    int max_Tile = INT_MIN;
-//
-//    // Max Tile index
-//    // Find max Tile index to determine valid vertex range 1-max_ind
-//    for (auto Tile : tiles)
-//    {
-//        if (Tile.getId() > max_Tile)
-//            max_Tile = Tile.getId();
-//    }
-//
-//    // Start with destination Tile and find its previous Tile of vertex
-//    while (true)  // Until source Tile is reached, find previous tiles from prev vector
-//    {
-//        vertex = prev[vertex];
-//        if ((vertex < 0) || (vertex > max_Tile)) // If vertex is not in the valid range
-//            break;
-//        PathStack.push(vertex); // Push the tiles to Path stack
-//        vertex = getTileIndex(tiles, vertex);
-//    }
-//
-//    int i = 0;
-//
-//    // Until the PathStack is empty
-//    while (!PathStack.empty())
-//    {
-//        path[i] = PathStack.top(); // Reverse PathStack to path
-//        PathStack.pop();
-//        i++;
-//    }
-//
-//    // Remove zeros from path
-//    removeZeros(path);
-//    return path;
-//}
 
-// Updated Dijkstra with weights
-std::vector<int> Grid::calculatePath(int source, int destination)
-{
-    int numOftiles = tiles.size();
+// Implementation of calculatePath
 
-    // Queue to Dijkstra's algorithm
-    std::queue<int> q;
+Path Grid::calculatePath(int source, int destination) {
 
-    // Stack to get the path
-    std::stack<int> PathStack;
-    int dist[numOftiles+1];         // Distances
+    Path output;
+    output.dead_tile = -1;
 
-    std::vector<int> path(numOftiles + 1); // Path vector
-    std::vector<int> prev(numOftiles + 1); // Previous tiles
+    const int node_num = tiles.size();
+    const int visited = 1, unvisited = 0;
+    bool mark[node_num];             // mark array to indicate visited/unvisited tiles
+    std::vector<int> id(node_num);   // id vector containing id of each node
+    int prev[node_num];              // prev array to keep track of previous tiles in the path
+    int dist[node_num];
+    std::vector<int> path;           // path vector to be returned
 
-    // Set all distances, previous tiles, and marks
-    for (int i = 1; i <= numOftiles; i++) {
+    for (int i = 0; i < node_num; i++) {
+        mark[i] = unvisited;         // initialize all tiles as unvisited
+        id[i] = tiles[i].getId();
+        prev[i] = -1;                // initialize all previous node id as -1
         dist[i] = INT_MAX;
-        prev[i] = -1;
     }
 
-    // Update source
-    int source_ind = getTileIndex(tiles, source);
-    dist[source_ind] = 0;
+    std::queue<int> Q;               // queue for BFS algorithm
+    Q.push(source);
+    mark[Find(id, source)] = visited; // start with source node
+    prev[Find(id, source)] = 0;       // assign its previous node 0 as stopping condition
+    dist[Find(id, source)] = 0;
 
-    // Insert the source Tile
-    q.push(source);
+    // Traverse the tiles using breadth-first strategy
+    while (!Q.empty()) {
+        int w = Q.front();
+        Q.pop();
 
-    // Unweighted Dijkstra's algorithm
-    while (!q.empty()) {
-        // Front element of q
-        int u = q.front();
-        q.pop();
+        int w_index = Find(id, w);
+        std::vector<int> w_neighbors = tiles[w_index].getNeighbors(); // neighbors of current node
 
-        // Find neighbors corresponding Tile
-        int u_Tile = getTileIndex(tiles, u);
-        std::vector<int> neighbors = tiles[u_Tile].getNeighbors();
-
-        for (int i = 0; i < neighbors.size(); ++i)
-        {
-            int ind      = getTileIndex(tiles, neighbors[i]);
-            Tile* v_Tile =  &tiles[ind];  // Get neighbors tile
-            int weight   = (v_Tile->getStatus() == 0 ? 1 : 2);
-
-            // If old distance is larger than new distance
-            if (dist[ind] > dist[u_Tile] + weight)
-            {
-                dist[ind] = dist[u_Tile] + weight;    // Update the distance
-                prev[ind] = u;                   // Update the previous Tile
-                q.push(neighbors[i]);            // Insert Tile to queue
+        for (int i = 0; i < w_neighbors.size(); i++) {
+            int idx = Find(id, w_neighbors[i]);
+            Tile* v_Tile = getTile(w_neighbors[i]);
+//            int weight   = (v_Tile->getStatus() == 0 ? 1 : 2);
+            int weight   = v_Tile->weight;
+            // In case the neighbor has not been visited yet
+            if (dist[idx] > dist[w_index] + weight) {
+                mark[idx] = visited;        // mark as visited
+                prev[idx] = w;              // assign the previous node
+                Q.push(w_neighbors[i]);     // insert it to the queue
+                dist[idx] = dist[w_index] + weight;
             }
         }
     }
 
-    int vertex = getTileIndex(tiles, destination);
+    int v = destination;
+    if (prev[Find(id, destination)] == -1){
+        output.path      = {0};
+        output.dead_tile = destination;
+        return output;}
 
-    // Insert the destination Tile to stack
-    if ((prev[vertex] > 0) && (vertex != -1))
-        PathStack.push(destination);
-    else
-    {
-        // If Tile does not exist.
-        std::cerr << "There is no path!" << std::endl;
-        exit(1);
+    // In case no possible path exists
+    if (prev[Find(id, v)] == -1 || Find(id, source) == -1 || Find(id, destination) == -1){
+        output.path = {0};
+        output.dead_tile = -1;
+        return output;
     }
 
-    int max_Tile = INT_MIN;
 
-    // Max Tile index
-    // Find max Tile index to determine valid vertex range 1-max_ind
-    for (auto Tile : tiles)
-    {
-        if (Tile.getId() > max_Tile)
-            max_Tile = Tile.getId();
+    // Construct the path vector by prev[] array
+    // stop the loop when the source node is reached
+    while (v) {
+        path.push_back(v);          // push back v to the path vector
+        int idx = Find(id, v);
+        v = prev[idx];              // assign v to previous node's id for next iteration
     }
 
-    // Start with destination Tile and find its previous Tile of vertex
-    while (true)  // Until source Tile is reached, find previous tiles from prev vector
-    {
-        vertex = prev[vertex];
-        if ((vertex < 0) || (vertex > max_Tile)) // If vertex is not in the valid range
-            break;
-        PathStack.push(vertex); // Push the tiles to Path stack
-        vertex = getTileIndex(tiles, vertex);
-    }
-
-    int i = 0;
-
-    // Until the PathStack is empty
-    while (!PathStack.empty())
-    {
-        path[i] = PathStack.top(); // Reverse PathStack to path
-        PathStack.pop();
-        i++;
-    }
-
-    // Remove zeros from path
-    removeZeros(path);
-    return path;
+    std::reverse(path.begin(), path.end()); // reverse the path to obtain correct order
+    output.path = path;
+    output.dead_tile = -1;
+    return output;
 }
